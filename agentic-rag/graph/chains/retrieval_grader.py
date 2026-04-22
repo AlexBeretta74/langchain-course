@@ -1,8 +1,9 @@
 from langchain_core.prompts import ChatPromptTemplate
-from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
+from pydantic import BaseModel, Field
 
 llm = ChatOpenAI(temperature=0)
+
 
 class GradeDocuments(BaseModel):
     """Binary score for relevance check on retrieved documents."""
@@ -10,6 +11,7 @@ class GradeDocuments(BaseModel):
     binary_score: str = Field(
         description="Documents are relevant to the question, 'yes' or 'no'"
     )
+
 
 structured_llm_grader = llm.with_structured_output(GradeDocuments)
 

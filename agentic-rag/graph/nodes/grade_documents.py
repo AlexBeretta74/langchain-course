@@ -3,6 +3,7 @@ from typing import Any, Dict
 from graph.chains.retrieval_grader import retrieval_grader
 from graph.state import GraphState
 
+
 def grade_documents(state: GraphState) -> Dict[str, Any]:
     """
     Determines whether the retrieved documents are relevant to the question
@@ -14,7 +15,6 @@ def grade_documents(state: GraphState) -> Dict[str, Any]:
     Returns:
         state (dict): Filtered out irrelevant documents and updated web_search state
     """
-
 
     print("---CHECK DOCUMENT RELEVANCE TO QUESTION---")
     question = state["question"]

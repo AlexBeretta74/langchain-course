@@ -8,4 +8,4 @@ if __name__ == "__main__":
         app.invoke(
             input={"question": "what is agent memory?"}
             )
-        )
+        ) # type: ignore

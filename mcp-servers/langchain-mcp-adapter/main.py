@@ -1,6 +1,7 @@
 import asyncio
 from dotenv import load_dotenv
 import os
+from langchain_core.messages import HumanMessage
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from langchain_openai import ChatOpenAI
@@ -18,7 +19,16 @@ stdio_server_params = StdioServerParameters(
 )
 
 async def main():
-    print("Hello from langchain-mcp-adapters!")
+    async with stdio_client(stdio_server_params) as (read,write):
+        async with ClientSession(read_stream=read, write_stream=write) as session:
+            await session.initialize()
+            print("Client session initialized")
+            tools = await load_mcp_tools(session)
+            print(tools)
+            agent = create_agent(llm, tools)
+
+            result = await agent.invoke({"messages": [HumanMessage(content="What is 2 + 2?")]})
+            print(result["messages"][-1].content)
 
 if __name__ == "__main__":
     asyncio.run(main())
